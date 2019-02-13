@@ -60,10 +60,44 @@ $ git commit
 ```
 
 This will then open a separate vim text editor so we can edit the commit message.
-Commit messages are VERY IMPORTANT. Trust me. Later on when you look back and want to find a specific commit in which you made some changes, commit messages will be your best friend. Do not use simple words like "update" or "some changes" as your commit message (Been there, done that, regreted it). 
+Commit messages are VERY IMPORTANT. Trust me. Later on when you look back and want to find a specific commit in which you made some changes, commit messages will be your best friend. Do not use simple words like "update" or "some changes" as your commit message (Been there, done that, regreted it). A good commit message will be something like "added contents for Basic_usage.md".
 
 ## Pull from the remote repository
 
+What do people always say? Pull before you push.
+You are asked to pull before you push, because someone pushed changes to the server, after your last pull, so our local repository and the current remote repository are not in sync. Pulling will merge the remote repository with your local one, which brings them back into sync and allows you to push.
+The reason that you are not supposed to push straight away, is that this will need merging and might lead to conflicts which need manual resolving. To avoid merging errors and conflicts, merging is best done on the local side, not on the server.
+
+```bash
+$ git pull
+```
+
 ## Push to the remote repository
 
+Now we have (pretty much) everything in place. We are ready to push. Yay! Pushing has the potential to overwrite changes, caution should be taken when pushing. The following command exports local commits and updates them to the remote repository:
+
+```bash
+$ git push
+```
+
 ## Checkout a previous commit
+
+The `git checkout` command is used to update the state of the repository to a specific point in the projects history. When passed with a branch name, it lets you switch between branches. Since this has the potential to overwrite local changes, Git forces you to commit or stash any changes in the working directory that will be lost during the checkout operation.
+
+```bash
+$ git checkout <branch>
+```
+
+This command can also let you see a previous commit. In order to know which commit you want to see, do:
+
+```bash
+$ git log --oneline
+```
+
+The first part of the log are the IDs of each commit. The second part, as we discussed in a previous section, are the commit messages (See, now you really want your commit messages to make sense).
+
+Run the following command to checkout a previous commit:
+
+```bash
+$ git checkout <commit ID>
+``` 
