@@ -44,5 +44,53 @@ The changes can be retrieved if you want them later. However, this will not be d
 
 ## Merge conflict
 
+A merge conflict occurs when a local commit and a remote commit try to change the same thing. When this happens, don't panic! It can be a little frightening but we can work through it. 
 
 
+### Setting up the error 
+
+To create this error, we will do almost the exact same thing as the previous example during stashing. However, in this case we will commit `demo_file.py` instead of stashing the changes. 
+
+If that makes sense, you can skip to the next section. If not, here is how to create the error. 
+
+First, pull and push to make sure that the remote repository and the local repository are syncronised. 
+
+Now we need to modify a file on the remote server and commit it. To do this, open up `demo_file.py` in the github UI by clicking on the file. Then, click the pencil icon towards the top right. Set `word_index` to `1`, scroll down to the "Commit Changes" box and add a descriptive commit title and click the green "Commit Changes" button. Now we have a modified version of `demo_file.py` on the remote server. 
+
+The next step is to modify `demo_file.py` locally. Open `demo_file.py` in your favorite text editor and set `word_index` to `2`. Let's commit our local version of `demo_file.py` (e.g. `git commit demo_file.py`). Now we're in a situation where there is a commit on the remote repository that disagrees with a commit in our local repository. When we pull again, we will get the Merge conflict error. 
+
+
+### The error message 
+
+The error message you get after pulling should look like this. 
+
+```
+Auto-merging demo_file.py
+CONFLICT (content): Merge conflict in demo_file.py
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+Git has now altered the file `demo_file.py`. Let's open it up and see what changed. 
+ 
+It should look something like this. 
+
+```
+from __future__ import print_function
+#The above line is just for python2 compatibility. 
+
+words = ["hey", "you're","learnin","git","ya","know"]
+<<<<<<< HEAD
+word_index = 2
+===========
+word_index = 1
+>>>>>>> ffa5e39263a8601ad99281aa
+print(words[word_index])
+```
+
+Let's talk a bit about what that means. The merge conflict blocks that are added always consist of a bunch of left arrows, a bunch of = and a bunch of right arrows. The row of = act as a dividing line showing the two different versions of that line. 
+
+### Resolving the error
+
+To fix this error, we want to choose the appropriate version at each merge conflict block. The markup produced by git as well as the incorrect version should be deleted from the file. You could also write some code that wasn't in either conflict. Git just wants to make sure that all the rows with `====` `<<<<` or `>>>>>`are removed from your file. Determining whether the changes made reflect what you actually want your code to do is your job. I encourage you to run some tests and make sure that everything is working as expected after resolving the conflicts. 
+
+Then, you need to tell git that you've fixed everything. To do this, you run `git add demo_file.py`. Then run `git commit` with no file specified. The `add` tells git that you've dealt with the conflict and `commit` creates a new commit for the merge. 
